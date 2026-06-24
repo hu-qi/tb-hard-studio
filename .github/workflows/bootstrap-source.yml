@@ -2,16 +2,12 @@ name: Bootstrap source
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - ".bootstrap/READY"
 
 permissions:
   contents: write
 
 jobs:
   unpack:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +18,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat .bootstrap/source.part-* > /tmp/tb-hard-studio.tar.xz
+          cat .bootstrap/source.part-* | base64 --decode > /tmp/tb-hard-studio.tar.xz
           echo "b6bcf29d3da3a788841b1b1ebb955ed5d01fbda2e25ef4d84d953bf8424ecccf  /tmp/tb-hard-studio.tar.xz" | sha256sum -c -
 
       - name: Unpack repository source
