@@ -14,6 +14,18 @@ This is an **authoring factory**, not a solver environment. It contains project 
 - Harbor Oracle/rollout wrapper scripts that preserve reproducible evidence.
 - A Harbor → purchaser-v1 adapter that exports only `Dockerfile`, `instruction.md`, `test/`, and `tag.txt`.
 
+## 中文文档
+
+面向中文使用者的完整说明位于 [`docs/zh-CN/`](docs/zh-CN/README.md)：
+
+- [快速开始](docs/zh-CN/quick-start.md)
+- [架构与目录](docs/zh-CN/architecture.md)
+- [Harbor / Terminal-Bench 2 对齐](docs/zh-CN/harbor-tb2-alignment.md)
+- [出题全流程](docs/zh-CN/authoring-workflow.md)
+- [Skills 与 Subagents](docs/zh-CN/skills-subagents.md)
+- [质量、反作弊与交付](docs/zh-CN/quality-delivery.md)
+- [CI 与 GitHub Actions](docs/zh-CN/ci-actions.md)
+
 ## First use
 
 ```bash
