@@ -1,6 +1,7 @@
 name: Bootstrap source
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - ".bootstrap/READY"
