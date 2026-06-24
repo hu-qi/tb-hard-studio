@@ -1,0 +1,22 @@
+case_id: gitops-atomic-release
+status: draft
+version: 0.1.0
+task_revision: uncommitted
+primary_category: 运维、网络与基础设施
+primary_language: Go
+secondary_technologies:
+  - Bash
+  - Git
+  - Nginx
+  - Docker
+difficulty_dimensions:
+  - 跨域集成
+  - 多步依赖链
+  - 底层系统与权限
+  - 对抗性与可观测性
+purchaser_tag: 运维、网络与基础设施-GitOps-原子发布
+owner: huqi
+oracle_status: not-run
+redteam_status: not-run
+calibration_status: not-run
+release_status: not-ready

@@ -1,0 +1,26 @@
+version: 1
+forbidden_path_parts:
+  - /solution/
+  - /private/
+  - /evidence/
+  - /.agents/
+  - /.claude/
+  - /.git/
+forbidden_text_patterns:
+  - /solution
+  - reference solution
+  - oracle-only
+  - hidden verifier
+  - authoring-only
+  - design-brief
+  - pattern-research
+  - calibration/report
+suspicious_docker_copy_sources:
+  - ../
+  - solution
+  - tests
+  - private
+  - evidence
+  - .agents
+  - .claude
+  - .git

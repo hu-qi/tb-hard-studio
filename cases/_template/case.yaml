@@ -1,0 +1,14 @@
+case_id: __CASE_ID__
+status: draft
+version: 0.1.0
+task_revision: uncommitted
+primary_category: TBD
+primary_language: TBD
+secondary_technologies: []
+difficulty_dimensions: []
+purchaser_tag: TBD
+owner: TBD
+oracle_status: not-run
+redteam_status: not-run
+calibration_status: not-run
+release_status: not-ready

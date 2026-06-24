@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "tb-hard Purchaser Delivery Manifest",
+  "type": "object",
+  "required": ["case_id", "export_version", "canonical_task_sha256", "archive_sha256", "included_files", "excluded_private_paths", "generated_at_utc"],
+  "properties": {
+    "case_id": {"type": "string"},
+    "export_version": {"const": "purchaser-v1"},
+    "canonical_task_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "archive_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "included_files": {"type": "array", "items": {"type": "string"}},
+    "excluded_private_paths": {"type": "array", "items": {"type": "string"}},
+    "generated_at_utc": {"type": "string"}
+  }
+}

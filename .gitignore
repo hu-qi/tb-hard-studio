@@ -1,0 +1,24 @@
+# Local runtime artifacts and raw evidence may be large or sensitive.
+.evidence-local/
+.evidence-tmp/
+.tmp/
+.cache/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.log
+
+# Harbor / Docker transient outputs. Curated evidence belongs under evidence/ and is committed deliberately.
+jobs/
+trials/
+artifacts/
+logs/
+
+# Generated delivery archives. Keep manifests and release scripts under version control.
+delivery/final/*.zip
+delivery/final/*.sha256
+*.tar
+*.tar.gz
+
+# Local Claude overrides
+.claude/settings.local.json

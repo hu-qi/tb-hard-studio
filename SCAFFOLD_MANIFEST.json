@@ -1,0 +1,51 @@
+{
+  "root": "tb-hard-studio",
+  "version": "2.0.0",
+  "generated_on": "2026-06-24",
+  "harbor_alignment": {
+    "task_schema_baseline": "1.3",
+    "canonical_task_path": "cases/<case_id>/task",
+    "minimum_harbor_version": "0.15.0",
+    "reference_docs": [
+      "https://www.harborframework.com/docs/tasks",
+      "https://www.harborframework.com/docs/agents",
+      "https://github.com/harbor-framework/harbor",
+      "https://github.com/harbor-framework/terminal-bench-2"
+    ]
+  },
+  "authoring_assets": {
+    "agent_guide": "AGENTS.md",
+    "skills_source": "skills-core",
+    "skills_projections": [".claude/skills", ".agents/skills"],
+    "skills": [
+      "harbor-task-create",
+      "tb2-pattern-research",
+      "harbor-environment-design",
+      "harbor-oracle-verifier",
+      "harbor-redteam-verifier",
+      "harbor-rollout-calibration",
+      "tb-hard-release-audit"
+    ],
+    "subagents": [
+      "tb2-task-designer",
+      "harbor-env-engineer",
+      "oracle-solution-engineer",
+      "verifier-security-reviewer",
+      "harbor-rollout-analyst",
+      "harbor-release-auditor"
+    ]
+  },
+  "automation": [
+    "make doctor",
+    "make new CASE=<case_id>",
+    "make validate CASE=<case_id>",
+    "make oracle CASE=<case_id>",
+    "make rollouts CASE=<case_id> AGENT=<agent> MODEL=<model> TRIALS=3",
+    "make export CASE=<case_id>",
+    "make release-check CASE=<case_id>"
+  ],
+  "validation": {
+    "static_checks": ["case metadata", "Harbor task TOML", "reward path", "isolation", "leak scan"],
+    "smoke_test": "purchaser-v1 exporter exercised with a disposable validated case; resulting archive contained only the expected four public artifacts."
+  }
+}

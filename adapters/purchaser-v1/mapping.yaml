@@ -1,0 +1,24 @@
+export_version: purchaser-v1
+archive_root: <case_id>
+include:
+  - source: task/environment/Dockerfile
+    destination: Dockerfile
+  - source: task/instruction.md
+    destination: instruction.md
+  - source: generated:purchaser_tag
+    destination: tag.txt
+  - source: task/tests
+    destination: test
+exclude:
+  - task/solution
+  - private
+  - evidence
+  - .agents
+  - .claude
+  - docs
+  - AGENTS.md
+  - CLAUDE.md
+notes:
+  - The canonical Harbor task remains the single editable source.
+  - The purchaser package intentionally excludes the Oracle unless separately requested.
+  - A delivery manifest is retained outside the archive for auditability.

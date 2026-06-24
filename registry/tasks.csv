@@ -1,0 +1,2 @@
+case_id,status,version,primary_category,primary_language,difficulty_dimensions,owner,task_revision
+gitops-atomic-release,draft,0.1.0,运维、网络与基础设施,Go,跨域集成|多步依赖链|底层系统与权限|对抗性与可观测性,huqi,uncommitted
