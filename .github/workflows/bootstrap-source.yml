@@ -1,0 +1,37 @@
+name: Bootstrap source
+
+on:
+  push:
+    paths:
+      - ".bootstrap/READY"
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct and verify source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .bootstrap/source.part-* > /tmp/tb-hard-studio.tar.xz
+          echo "b6bcf29d3da3a788841b1b1ebb955ed5d01fbda2e25ef4d84d953bf8424ecccf  /tmp/tb-hard-studio.tar.xz" | sha256sum -c -
+
+      - name: Unpack repository source
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -xJf /tmp/tb-hard-studio.tar.xz --strip-components=1
+          rm -rf .bootstrap
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "feat: bootstrap tb-hard studio"
+          git push origin HEAD:main
