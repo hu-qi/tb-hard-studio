@@ -21,15 +21,14 @@ jobs:
           cat .bootstrap/source.part-* | base64 --decode > /tmp/tb-hard-studio.tar.xz
           echo "b6bcf29d3da3a788841b1b1ebb955ed5d01fbda2e25ef4d84d953bf8424ecccf  /tmp/tb-hard-studio.tar.xz" | sha256sum -c -
 
-      - name: Unpack repository source
+      - name: Unpack and commit source (workflow files excluded)
         shell: bash
         run: |
           set -euo pipefail
           tar -xJf /tmp/tb-hard-studio.tar.xz --strip-components=1
           rm -rf .bootstrap
-          rm -f .github/workflows/bootstrap-source.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add --all
-          git commit -m "feat: bootstrap tb-hard studio"
+          git add --all -- ':!.github/workflows'
+          git commit -m "feat: bootstrap tb-hard studio source"
           git push origin HEAD:main
