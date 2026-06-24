@@ -1,0 +1,47 @@
+name: Case export check
+
+on:
+  workflow_dispatch:
+    inputs:
+      case_id:
+        description: "Case ID under cases/<case_id>/"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Validate Harbor task source
+        env:
+          CASE_ID: ${{ inputs.case_id }}
+        run: |
+          test -d "cases/${CASE_ID}"
+          make validate CASE="${CASE_ID}"
+
+      - name: Export purchaser-v1 package
+        env:
+          CASE_ID: ${{ inputs.case_id }}
+        run: |
+          make export CASE="${CASE_ID}"
+          make release-check CASE="${CASE_ID}"
+
+      - name: Upload purchaser package
+        uses: actions/upload-artifact@v4
+        with:
+          name: purchaser-v1-${{ inputs.case_id }}
+          path: delivery/purchaser-v1/${{ inputs.case_id }}/*.zip
+          if-no-files-found: error
+          retention-days: 30
