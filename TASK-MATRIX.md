@@ -13,7 +13,7 @@
 
 | Slot | Primary category | Primary language | Candidate shape | Intended dimensions |
 |---|---|---:|---|---|
-| 01 | 运维、网络与基础设施 | Go / Bash | GitOps atomic release and audit recovery | cross-domain, dependency chain, systems, adversarial |
+| 01 | 运维、网络与基础设施 | Bash / Git | GitOps atomic release and audit recovery | cross-domain, dependency chain, systems, adversarial |
 | 02 | 编译器、解释器与语言设计 | Rust | constrained DSL interpreter or migration | language semantics, precision, creative constraints |
 | 03 | 系统编程、工具链与底层机制 | C/C++ | ABI/ISA or toolchain recovery | low-level systems, precision, dependency chain |
 | 04 | 密码学、安全与逆向工程 | Python / C | cryptanalytic or binary-analysis workflow | specialist knowledge, adversarial, precision |

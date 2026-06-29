@@ -1,13 +1,12 @@
 case_id: gitops-atomic-release
-status: draft
+status: active
 version: 0.1.0
 task_revision: uncommitted
 primary_category: 运维、网络与基础设施
-primary_language: Go
+primary_language: Bash
 secondary_technologies:
-  - Bash
   - Git
-  - Nginx
+  - POSIX shell
   - Docker
 difficulty_dimensions:
   - 跨域集成

@@ -3,17 +3,17 @@ artifacts = []
 
 [task]
 name = "tb-hard/gitops-atomic-release"
-description = "TODO: concise task description"
-authors = [{ name = "TBD", email = "tbd@example.com" }]
-keywords = []
+description = "Repair a local GitOps static-site release pipeline so valid pushes publish atomically, invalid pushes roll back safely, concurrent pushes serialize deterministically, and audit evidence survives restart."
+authors = [{ name = "tb-hard Studio", email = "noreply@example.com" }]
+keywords = ["gitops", "git-hooks", "atomic-release", "rollback", "audit", "concurrency"]
 
 [metadata]
 difficulty = "hard"
-difficulty_explanation = "TODO: explain at least three substantive difficulty dimensions."
-category = "TBD"
-tags = []
-expert_time_estimate_min = 0.0
-junior_time_estimate_min = 0.0
+difficulty_explanation = "Requires cross-domain debugging across Git hooks, shell deployment logic, filesystem atomicity, concurrent locking, release validation, and durable audit state. The intended solution must reason about failure ordering and observable behavior rather than patching a single syntax error."
+category = "运维、网络与基础设施"
+tags = ["gitops", "release-engineering", "filesystem", "shell", "concurrency", "rollback"]
+expert_time_estimate_min = 90.0
+junior_time_estimate_min = 240.0
 
 [agent]
 timeout_sec = 7200.0

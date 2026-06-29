@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+while read -r old new ref; do
+  if [[ "$ref" == "refs/heads/main" ]]; then
+    /app/bin/deploy.sh "$new"
+  fi
+done

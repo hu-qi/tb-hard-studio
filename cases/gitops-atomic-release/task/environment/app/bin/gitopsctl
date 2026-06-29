@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+case "${1:-}" in
+  init)
+    mkdir -p /app/site/releases /app/state /app/tmp
+    if [[ ! -e /app/site/current ]]; then
+      mkdir -p /app/site/releases/bootstrap
+      printf '<html><body><h1>bootstrap</h1></body></html>\n' > /app/site/releases/bootstrap/index.html
+      ln -sfn /app/site/releases/bootstrap /app/site/current
+      printf 'bootstrap\n' > /app/state/current_release
+      printf 'success bootstrap /app/site/releases/bootstrap\n' > /app/state/audit.log
+    fi
+    ;;
+  restart)
+    # Broken behavior: restart rewrites audit history and does not verify that
+    # current_release and the current symlink agree.
+    mkdir -p /app/state
+    current="$(cat /app/state/current_release 2>/dev/null || true)"
+    if [[ -n "$current" && -d "/app/site/releases/$current" ]]; then
+      ln -sfn "/app/site/releases/$current" /app/site/current
+    fi
+    printf 'restart %s\n' "${current:-unknown}" > /app/state/audit.log
+    ;;
+  status)
+    printf 'current=%s\n' "$(cat /app/state/current_release 2>/dev/null || echo unknown)"
+    readlink /app/site/current 2>/dev/null || true
+    ;;
+  *)
+    echo "usage: gitopsctl {init|restart|status}" >&2
+    exit 2
+    ;;
+esac
