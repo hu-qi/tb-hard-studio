@@ -2,12 +2,31 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
+import shutil
 import subprocess
 import sys
-import tomllib
 from pathlib import Path
 from typing import Any
+
+try:
+    import tomllib  # Python 3.11+ stdlib
+except ModuleNotFoundError:  # pragma: no cover - depends on runtime
+    try:
+        import tomli as tomllib  # optional fallback for Python < 3.11
+    except ModuleNotFoundError:
+        python311 = shutil.which("python3.11")
+        if python311 and Path(python311).resolve() != Path(sys.executable).resolve():
+            os.execv(python311, [python311, *sys.argv])
+        print(
+            "ERROR: Reading Harbor task.toml requires the 'tomllib' module (Python 3.11+) "
+            "or the 'tomli' fallback package. Install one of:\n"
+            "  - use Python 3.11+ (preferred), or\n"
+            "  - pip install tomli  (then rerun this command)",
+            file=sys.stderr,
+        )
+        raise SystemExit(2)
 
 from common import CASE_ID_RE, STATUSES, printable_issue, read_registry, repo_root, resolve_case, parse_simple_yaml
 
@@ -152,15 +171,100 @@ def validate_case(case_dir: Path, strict: bool = False, deep: bool = False) -> l
         issues.extend(isolation_scan(case_dir))
         issues.extend(leak_scan(case_dir))
 
-    if strict and status in {"validated", "released"}:
-        if data.get("oracle_status") != "passed":
-            issue(issues, "ERROR", metadata_path, "validated/released case requires oracle_status: passed")
-        if data.get("redteam_status") != "passed":
-            issue(issues, "ERROR", metadata_path, "validated/released case requires redteam_status: passed")
-        if data.get("calibration_status") != "passed":
-            issue(issues, "ERROR", metadata_path, "validated/released case requires calibration_status: passed")
+    issues.extend(validate_lifecycle_evidence(case_dir, data, status, metadata_path))
 
     return issues
+
+
+def validate_lifecycle_evidence(
+    case_dir: Path, data: dict[str, Any], status: str, metadata_path: Path
+) -> list[tuple[str, Path, str]]:
+    """Enforce that advanced lifecycle statuses carry matching evidence.
+
+    Draft/active cases only warn about missing evidence; cases claiming a later
+    gate (oracle-passed and beyond) must present the required artifacts.
+    """
+    issues: list[tuple[str, Path, str]] = []
+    case_id = str(data.get("case_id", case_dir.name))
+    evidence_root = ROOT / "evidence" / case_id
+    order = STATUS_ORDER.get(status, -1)
+    is_rejected = status == "rejected"
+    # oracle-passed or later
+    if order >= STATUS_ORDER["oracle-passed"] and not is_rejected:
+        if data.get("oracle_status") != "passed":
+            issue(issues, "ERROR", metadata_path, "status past active requires oracle_status: passed")
+        oracle_evidence = evidence_root / "oracle"
+        if not oracle_evidence.exists() or not any(path.is_file() for path in oracle_evidence.rglob("*")):
+            issue(issues, "ERROR", oracle_evidence, "oracle-passed or later requires at least one evidence artifact under evidence/<case_id>/oracle/")
+        else:
+            has_record = any(
+                p.suffix.lower() in {".md", ".txt", ".log", ".json", ".yaml", ".yml"}
+                for p in oracle_evidence.rglob("*") if p.is_file()
+            )
+            if not has_record:
+                issue(issues, "ERROR", oracle_evidence, "oracle evidence directory has no console/environment record")
+    elif order >= STATUS_ORDER["active"]:
+        if data.get("oracle_status") not in {"passed", "not-run", ""}:
+            issue(issues, "WARN", metadata_path, f"unexpected oracle_status '{data.get('oracle_status')}' while still {status}")
+
+    # redteam-passed or later
+    if order >= STATUS_ORDER["redteam-passed"] and not is_rejected:
+        if data.get("redteam_status") != "passed":
+            issue(issues, "ERROR", metadata_path, "status past oracle-passed requires redteam_status: passed")
+        redteam_report = case_dir / "private" / "reviews" / "redteam-report.md"
+        if not redteam_report.exists():
+            issue(issues, "ERROR", redteam_report, "redteam-passed or later requires private/reviews/redteam-report.md")
+
+    # calibrated or later
+    if order >= STATUS_ORDER["calibrated"] and not is_rejected:
+        if data.get("calibration_status") != "passed":
+            issue(issues, "ERROR", metadata_path, "status past redteam-passed requires calibration_status: passed")
+        cal_root = evidence_root / "calibration"
+        report = cal_root / "report.md"
+        aggregate = cal_root / "aggregate.csv"
+        if not report.exists():
+            issue(issues, "ERROR", report, "calibrated or later requires evidence/<case_id>/calibration/report.md")
+        if not aggregate.exists():
+            issue(issues, "ERROR", aggregate, "calibrated or later requires evidence/<case_id>/calibration/aggregate.csv")
+        elif not calibration_has_real_reward(aggregate):
+            issue(issues, "ERROR", aggregate, "aggregate.csv must not contain only 'unknown' rewards")
+
+    # validated or released
+    if order >= STATUS_ORDER["validated"] and not is_rejected:
+        release_status = str(data.get("release_status", ""))
+        if release_status not in {"ready", "released"}:
+            issue(issues, "ERROR", metadata_path, f"validated/released requires release_status 'ready' or 'released' (got '{release_status}')")
+        if str(data.get("task_revision", "")) == "uncommitted":
+            issue(issues, "ERROR", metadata_path, "validated/released requires a committed task_revision (not 'uncommitted')")
+        if data.get("oracle_status") != "passed":
+            issue(issues, "ERROR", metadata_path, "validated/released requires oracle_status: passed")
+        if data.get("redteam_status") != "passed":
+            issue(issues, "ERROR", metadata_path, "validated/released requires redteam_status: passed")
+        if data.get("calibration_status") != "passed":
+            issue(issues, "ERROR", metadata_path, "validated/released requires calibration_status: passed")
+
+    return issues
+
+
+def calibration_has_real_reward(aggregate: Path) -> bool:
+    """Return True if aggregate.csv has at least one non-unknown numeric reward."""
+    import csv
+    try:
+        with aggregate.open(newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            for row in reader:
+                reward = str(row.get("reward", row.get("Reward", ""))).strip().lower()
+                if reward in {"", "unknown", "missing", "none"}:
+                    continue
+                try:
+                    float(reward)
+                except ValueError:
+                    continue
+                else:
+                    return True
+            return False
+    except Exception:
+        return False
 
 
 def collect_cases() -> list[Path]:
