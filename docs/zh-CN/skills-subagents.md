@@ -53,6 +53,7 @@ Task designer
 ## 5. 与 Claude Code / Codex 的关系
 
 - `.claude/agents/`：项目级 Claude Code Subagents。
+- `.codex/agents/`：项目级 Codex agents。
 - `.claude/skills/`：提供给 Claude Code 的 Skill 投影。
 - `.agents/skills/`：通用 Agent / Codex 侧可使用的投影。
 - `skills-core/`：唯一可编辑的核心来源。

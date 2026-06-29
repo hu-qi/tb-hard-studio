@@ -13,6 +13,7 @@
 5. [Skills 与 Subagents](skills-subagents.md)：如何让 AI 协作出题而不自证正确。
 6. [质量、反作弊与交付](quality-delivery.md)：Oracle、Verifier、红队、校准、采购包。
 7. [CI 与 GitHub Actions](ci-actions.md)：自动检查、手动导出和排错。
+8. [完整使用手册](tb-hard-studio-完整使用手册.md)：面向培训和日常操作的一站式长文档。
 
 ## 术语速查
 

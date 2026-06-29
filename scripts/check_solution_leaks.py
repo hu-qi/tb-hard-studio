@@ -17,10 +17,11 @@ DIRECT_LEAK_PATTERNS = [
     re.compile(r"(?i)(?:^|[^a-z0-9_])pattern-research(?:$|[^a-z0-9_])"),
     re.compile(r"(?:^|/)\.agents(?:/|$)"),
     re.compile(r"(?:^|/)\.claude(?:/|$)"),
+    re.compile(r"(?:^|/)\.codex(?:/|$)"),
     re.compile(r"(?:^|/)private(?:/|$)"),
     re.compile(r"(?:^|/)evidence(?:/|$)"),
 ]
-FORBIDDEN_NAMES = {"solution", "private", "evidence", ".agents", ".claude", ".git"}
+FORBIDDEN_NAMES = {"solution", "private", "evidence", ".agents", ".claude", ".codex", ".git"}
 
 
 def text_files(root: Path):

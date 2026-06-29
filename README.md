@@ -2,14 +2,14 @@
 
 Private production workspace for high-difficulty terminal benchmark tasks aligned with [Harbor](https://www.harborframework.com/) and Terminal-Bench 2 task patterns.
 
-This is an **authoring factory**, not a solver environment. It contains project instructions, reusable Skills, Claude Code Subagents, validation scripts, evidence conventions, and a deterministic purchaser export adapter. None of the authoring assets belong in a solver-visible benchmark image.
+This is an **authoring factory**, not a solver environment. It contains project instructions, reusable Skills, Claude Code/Codex agents, validation scripts, evidence conventions, and a deterministic purchaser export adapter. None of the authoring assets belong in a solver-visible benchmark image.
 
 ## What changed in v2
 
 - Stable case paths: `cases/<case_id>/`; status lives in `case.yaml` and `registry/tasks.csv`.
 - Canonical Harbor source: `cases/<case_id>/task/` only.
 - Seven reusable Skills sourced from `skills-core/` and copied to `.claude/skills/` and `.agents/skills/` by `scripts/sync_skills.py`.
-- Six Claude Code Subagents with explicit write boundaries.
+- Six Claude Code / Codex project agents with explicit write boundaries.
 - Static quality gates: structure, metadata, Docker isolation, solution-leak scanning, and delivery checks.
 - Harbor Oracle/rollout wrapper scripts that preserve reproducible evidence.
 - A Harbor → purchaser-v1 adapter that exports only `Dockerfile`, `instruction.md`, `test/`, and `tag.txt`.
@@ -25,6 +25,7 @@ This is an **authoring factory**, not a solver environment. It contains project 
 - [Skills 与 Subagents](docs/zh-CN/skills-subagents.md)
 - [质量、反作弊与交付](docs/zh-CN/quality-delivery.md)
 - [CI 与 GitHub Actions](docs/zh-CN/ci-actions.md)
+- [完整使用手册](docs/zh-CN/tb-hard-studio-完整使用手册.md)
 
 ## First use
 
@@ -35,7 +36,7 @@ make new CASE=gitops-atomic-release
 make validate CASE=gitops-atomic-release
 ```
 
-For Claude Code, start in the repository root. Project Skills are in `.claude/skills/`; project Subagents are in `.claude/agents/`.
+For Claude Code, start in the repository root. Project Skills are in `.claude/skills/`; project Subagents are in `.claude/agents/`. For Codex, project agents are in `.codex/agents/` and project Skills are discovered from `.agents/skills/`.
 
 ## Core workflow
 

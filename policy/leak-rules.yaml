@@ -5,6 +5,7 @@ forbidden_path_parts:
   - /evidence/
   - /.agents/
   - /.claude/
+  - /.codex/
   - /.git/
 forbidden_text_patterns:
   - /solution
@@ -23,4 +24,5 @@ suspicious_docker_copy_sources:
   - evidence
   - .agents
   - .claude
+  - .codex
   - .git

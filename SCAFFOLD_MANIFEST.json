@@ -17,6 +17,7 @@
     "agent_guide": "AGENTS.md",
     "skills_source": "skills-core",
     "skills_projections": [".claude/skills", ".agents/skills"],
+    "codex_agents": ".codex/agents",
     "skills": [
       "harbor-task-create",
       "tb2-pattern-research",

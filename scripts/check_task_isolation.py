@@ -9,8 +9,8 @@ from pathlib import Path
 
 from common import printable_issue, resolve_case
 
-FORBIDDEN_SEGMENTS = {"solution", "private", "evidence", ".agents", ".claude", ".git"}
-SUSPICIOUS_COPY = {"solution", "tests", "private", "evidence", ".agents", ".claude", ".git"}
+FORBIDDEN_SEGMENTS = {"solution", "private", "evidence", ".agents", ".claude", ".codex", ".git"}
+SUSPICIOUS_COPY = {"solution", "tests", "private", "evidence", ".agents", ".claude", ".codex", ".git"}
 
 
 def docker_copy_sources(line: str) -> list[str]:

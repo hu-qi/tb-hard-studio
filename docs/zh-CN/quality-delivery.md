@@ -82,7 +82,7 @@ make release-check CASE=<case_id>
 - `private/`；
 - Oracle / 标准解；
 - 隐藏评分逻辑（按双方交付协议决定是否单独提供）；
-- Skills、Subagents、作者提示；
+- Skills、Subagents、Codex agents、作者提示；
 - rollout 轨迹、审查报告和内部证据；
 - 凭证、密钥、缓存和构建临时文件。
 

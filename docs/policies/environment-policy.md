@@ -16,7 +16,7 @@ The environment should be difficult because of the intended engineering problem,
 
 ## Prohibited shortcuts
 
-Do not copy `solution/`, `tests/`, `private/`, `evidence/`, `.agents/`, `.claude/`, repository Git metadata, or local package caches into the solver image. Avoid image-layer history containing answer-generating commands or credentials.
+Do not copy `solution/`, `tests/`, `private/`, `evidence/`, `.agents/`, `.claude/`, `.codex/`, repository Git metadata, or local package caches into the solver image. Avoid image-layer history containing answer-generating commands or credentials.
 
 ## Compose and sidecars
 

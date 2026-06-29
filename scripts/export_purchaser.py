@@ -13,7 +13,7 @@ from pathlib import Path
 from common import ROOT, parse_simple_yaml, resolve_case, sha256_file, sha256_tree, utc_now
 from validate_case import validate_case
 
-PRIVATE_EXCLUDES = ["task/solution", "private", "evidence", ".agents", ".claude", "docs", "AGENTS.md", "CLAUDE.md"]
+PRIVATE_EXCLUDES = ["task/solution", "private", "evidence", ".agents", ".claude", ".codex", "docs", "AGENTS.md", "CLAUDE.md"]
 
 
 def add_file(zf: zipfile.ZipFile, archive_name: str, source: Path) -> None:
@@ -80,7 +80,7 @@ def main() -> int:
             os.chmod(target, stat.S_IMODE(file.stat().st_mode))
 
         included = sorted(path.relative_to(staging).as_posix() for path in staging.rglob("*") if path.is_file())
-        forbidden = [name for name in included if any(token in f"/{name}/" for token in ("/solution/", "/private/", "/evidence/", "/.agents/", "/.claude/"))]
+        forbidden = [name for name in included if any(token in f"/{name}/" for token in ("/solution/", "/private/", "/evidence/", "/.agents/", "/.claude/", "/.codex/"))]
         if forbidden:
             print(f"ERROR: export contains forbidden file(s): {forbidden}")
             return 1

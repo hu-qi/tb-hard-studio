@@ -10,7 +10,7 @@
 - Python / Git / Make 基础环境；
 - Skill 投影是否同步；
 - 所有 case 的静态结构、隔离和泄露检查；
-- `.agents/skills/` 与 `.claude/skills/` 是否已提交最新生成结果。
+- `.agents/skills/`、`.claude/skills/` 与 `.codex/agents/` 是否已提交最新结果。
 
 它不运行 Docker、不执行真实 Agent，也不代表题目已经完成 Oracle 或 calibration。
 

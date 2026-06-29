@@ -86,7 +86,7 @@ make export CASE=gitops-atomic-release
 make release-check CASE=gitops-atomic-release
 ```
 
-导出器会从 canonical Harbor task 生成采购方格式，默认排除 `private/`、标准解、轨迹、内部审查、Skills 和 Subagents。不要手工编辑 `exports/` 或 `delivery/` 下生成的文件。
+导出器会从 canonical Harbor task 生成采购方格式，默认排除 `private/`、标准解、轨迹、内部审查、Skills、Subagents 和 Codex agents。不要手工编辑 `exports/` 或 `delivery/` 下生成的文件。
 
 ## 常见错误
 

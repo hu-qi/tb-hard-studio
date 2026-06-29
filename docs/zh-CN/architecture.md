@@ -15,6 +15,7 @@
 |---|---|---|
 | `skills-core/` | 7 个核心 Skill 的唯一来源 | 否 |
 | `.claude/agents/` | Claude Code Subagent 定义 | 否 |
+| `.codex/agents/` | Codex 项目级 agents 定义 | 否 |
 | `.claude/skills/`、`.agents/skills/` | 由 `sync_skills.py` 生成的 Skill 投影 | 否 |
 | `docs/` | 制度、协议、对齐说明 | 否 |
 | `templates/` | Brief 与审查模板 | 否 |
